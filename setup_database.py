@@ -23,7 +23,7 @@ def setup_database():
         chat_id int,
         username varchar(255),
         command_name varchar(255),
-    )''')
+    );''')
 
 
 if __name__ == '__main__':
