@@ -3,3 +3,7 @@ sticker_preferences.csv
 logs.log
 .ipynb_checkpoints/
 command_calling.csv
+.vscode
+__pycache__/
+foo.ipynb
+main.ipynb
