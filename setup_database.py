@@ -24,3 +24,7 @@ def setup_database():
         username varchar(255),
         command_name varchar(255),
     )''')
+
+
+if __name__ == '__main__':
+    setup_database()
