@@ -19,7 +19,7 @@ def open_close_database(func):
         )
         mycursor = mydb.cursor()
 
-        to_return = inner(mydb, mycursor)
+        to_return = func(mydb, mycursor)
 
         mycursor.close()
         mydb.close()
