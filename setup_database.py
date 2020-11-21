@@ -2,20 +2,34 @@ from dotenv import load_dotenv
 import os
 import mysql.connector
 
+from functools import wraps
 
-def setup_database():
-    load_dotenv()
-    database_token = os.getenv('database_token')
 
-    mydb = mysql.connector.connect(
-        host="localhost",
-        user="marcy",
-        password=database_token,
-        database='marcy_sticker_bot'
-    )
+def open_close_database(func):
+    @wraps(func)
+    def inner(*args, **kwargs):
+        load_dotenv()
+        database_token = os.getenv('database_token')
 
-    mycursor = mydb.cursor()
+        mydb = mysql.connector.connect(
+            host="localhost",
+            user="marcy",
+            password=database_token,
+            database='marcy_sticker_bot'
+        )
+        mycursor = mydb.cursor()
 
+        to_return = setup_database(mydb, mycursor)
+
+        mycursor.close()
+        mydb.close()
+
+        return to_return
+    return inner
+
+
+@open_close_database
+def setup_database(mydb, mycursor):
     mycursor.execute('''
     create table if not exists command_calling (
         update_id int,
