@@ -7,6 +7,10 @@ import logging
 from setup_database import open_close_database
 
 
+# consts for conversation handlers
+FEEDBACK_MESSAGE = 0
+
+
 def logging_decorator(func):
     '''decorator for handlers to save every handler call to database'''
     @wraps(func)
@@ -60,6 +64,23 @@ I can help you to quickly access stickers via keaborad.
 Use /help for instructions.''')
 
 
+@logging_decorator
+def helpX(update, context):
+    update.message.reply_text("""
+To send stickers type @StickerKeyboardBot in any chat and begin typing name \
+of the sticker you've already saved.
+If you haven't saved any stickers yet you can always send the smiling_frog \
+from the bot profile photo!
+By the way you can start typing from the middle of the word, "fr", for \
+example, and the bot will still understand.
+
+To save stickers use /add_sticker and follow instructions.
+
+If you wish to share some feedback feel free to use /feedback
+
+Good luck!""")
+
+
 def error(update, context):
     logging.basicConfig(
         filename='logs.log',
@@ -71,3 +92,27 @@ def error(update, context):
 UPDATE {update}
 CONTEXT {context.error}
 FROM ERROR {context.from_error}''')
+
+
+@logging_decorator
+def feedback_call(update, context):
+    update.message.reply_text('Please share your experience!')
+
+    return FEEDBACK_MESSAGE
+
+
+def feedback_message(update, context):
+    bot.forward_message(
+        chat_id=os.getenv('feedback_bot_chat_id'),
+        from_chat_id=update.effective_chat.id,
+        message_id=update.message.message_id)
+    update.message.reply_text('Thanks!')
+    return ConversationHandler.END
+
+
+@logging_decorator
+def cancel(update, context):
+    update.message.reply_text(
+        'Something cancelled... \nI hope everything is ok!')
+    context.user_data.clear()
+    return ConversationHandler.END
