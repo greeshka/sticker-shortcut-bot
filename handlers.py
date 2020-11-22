@@ -44,7 +44,8 @@ def logging_decorator(func):
         mycursor.close()
         mydb.close()
 
-    return func(update, context)
+        return func(update, context)
+    return inner
 
 
 @logging_decorator
