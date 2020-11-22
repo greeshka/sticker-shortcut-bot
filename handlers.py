@@ -1,5 +1,6 @@
 from functools import wraps
 import os
+import mysql.connector
 
 import logging
 
