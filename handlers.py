@@ -8,6 +8,10 @@ from setup_database import open_close_database
 
 import telegram
 
+from dotenv import load_dotenv
+
+# load tokens
+load_dotenv()
 
 # consts for conversation handlers
 FEEDBACK_MESSAGE = 0
