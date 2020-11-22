@@ -6,6 +6,8 @@ import logging
 
 from setup_database import open_close_database
 
+import telegram
+
 
 # consts for conversation handlers
 FEEDBACK_MESSAGE = 0
