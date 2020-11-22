@@ -22,7 +22,7 @@ def logging_decorator(func):
 
         user_data = {}
         user_data['update_id'] = update.update_id
-        user_data['message_date'] = update.message.date.strftime(
+        user_data['message_datetime'] = update.message.date.strftime(
             '%Y-%m-%d %H:%M:%S')
         user_data['chat_id'] = update.message.chat.id
         user_data['username'] = update.message.chat.username
@@ -36,7 +36,7 @@ def logging_decorator(func):
         sql = '''insert into command_calling
         values (%s, %s, %s, %s, %s);'''
         val = (
-            user_data['update_id'], user_data['message_date'],
+            user_data['update_id'], user_data['message_datetime'],
             user_data['chat_id'], user_data['username'],
             user_data['command_name']
         )

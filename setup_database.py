@@ -18,7 +18,7 @@ def open_close_database(func):
         )
         mycursor = mydb.cursor()
 
-        to_return = func(mydb=mydb, mycursor=mycursor)
+        to_return = func(mydb=mydb, mycursor=mycursor, *args, **kwargs)
 
         mycursor.close()
         mydb.close()
@@ -32,7 +32,7 @@ def setup_database(mydb, mycursor):
     mycursor.execute('''
     create table if not exists command_calling (
         update_id int,
-        message_date datetime,
+        message_datetime datetime,
         chat_id int,
         username varchar(255),
         command_name varchar(255)
