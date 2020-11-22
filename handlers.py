@@ -43,6 +43,8 @@ def logging_decorator(func):
 
         mycursor.execute(sql, val)
 
+        mydb.commit()
+
         mycursor.close()
         mydb.close()
 
