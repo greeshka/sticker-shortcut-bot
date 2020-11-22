@@ -1,4 +1,5 @@
 from functools import wraps
+import os
 
 import logging
 
@@ -8,7 +9,6 @@ from setup_database import open_close_database
 def logging_decorator(func):
     @wraps(func)
     def inner(update, context):
-        load_dotenv()
         database_token = os.getenv('database_token')
 
         mydb = mysql.connector.connect(

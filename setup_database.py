@@ -8,7 +8,6 @@ from functools import wraps
 def open_close_database(func):
     @wraps(func)
     def inner(*args, **kwargs):
-        load_dotenv()
         database_token = os.getenv('database_token')
 
         mydb = mysql.connector.connect(
