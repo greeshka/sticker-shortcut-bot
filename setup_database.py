@@ -6,6 +6,7 @@ from functools import wraps
 
 
 def open_close_database(func):
+    '''decorator to open and close database'''
     @wraps(func)
     def inner(*args, **kwargs):
         database_token = os.getenv('database_token')
@@ -29,6 +30,7 @@ def open_close_database(func):
 
 @open_close_database
 def setup_database(mydb, mycursor):
+    '''function to create all needed tables if they don't exist'''
     mycursor.execute('''
     create table if not exists command_calling (
         update_id int,

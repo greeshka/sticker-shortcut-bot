@@ -8,6 +8,7 @@ from setup_database import open_close_database
 
 
 def logging_decorator(func):
+    '''decorator for handlers to save every handler call to database'''
     @wraps(func)
     def inner(update, context):
         database_token = os.getenv('database_token')
@@ -20,6 +21,7 @@ def logging_decorator(func):
         )
         mycursor = mydb.cursor()
 
+        # get all information needed
         user_data = {}
         user_data['update_id'] = update.update_id
         user_data['message_datetime'] = update.message.date.strftime(
@@ -27,12 +29,13 @@ def logging_decorator(func):
         user_data['chat_id'] = update.message.chat.id
         user_data['username'] = update.message.chat.username
 
-        # because there is confusion between python help and bot help
+        # because there is a confusion between python help and bot help
         if func.__name__ == 'helpX':
             user_data['command_name'] = 'help'
         else:
             user_data['command_name'] = func.__name__
 
+        # insert all information into database
         sql = '''insert into command_calling
         values (%s, %s, %s, %s, %s);'''
         val = (
@@ -40,9 +43,7 @@ def logging_decorator(func):
             user_data['chat_id'], user_data['username'],
             user_data['command_name']
         )
-
         mycursor.execute(sql, val)
-
         mydb.commit()
 
         mycursor.close()
