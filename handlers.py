@@ -30,6 +30,7 @@ def logging_decorator(func):
         mycursor.execute(sql, val)
 
 
+@logging_decorator
 def start(update, context):
     update.message.reply_text(f'''Hi there!
 I can help you to quickly access stickers via keaborad.
