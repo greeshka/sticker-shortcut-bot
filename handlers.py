@@ -50,3 +50,10 @@ def start(update, context):
     update.message.reply_text(f'''Hi there!
 I can help you to quickly access stickers via keaborad.
 Use /help for instructions.''')
+
+
+def error(update, context):
+    logger.warning(
+        f'''UPDATE {update}
+CONTEXT {context.error}
+FROM ERROR {context.from_error}''')
