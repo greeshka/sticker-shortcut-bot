@@ -37,7 +37,7 @@ def logging_decorator(func):
         val = (
             user_data['update_id'], user_data['message_date'],
             user_data['chat_id'], user_data['username'],
-            user_date['command_name']
+            user_data['command_name']
         )
 
         mycursor.execute(sql, val)
