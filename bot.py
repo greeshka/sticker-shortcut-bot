@@ -7,7 +7,11 @@ from telegram.ext import Updater, CommandHandler, ConversationHandler
 from handlers import start, helpX
 from handlers import error
 from handlers import feedback_call, feedback_message, cancel
+
 from setup_database import setup_database
+
+# consts for conversation handlers
+FEEDBACK_MESSAGE = 0
 
 # load all tokens and get bot_token
 load_dotenv()
