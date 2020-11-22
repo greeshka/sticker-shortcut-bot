@@ -1,5 +1,7 @@
 from functools import wraps
 
+import logging
+
 from setup_database import open_close_database
 
 
@@ -42,7 +44,7 @@ def logging_decorator(func):
         mycursor.close()
         mydb.close()
 
-        return func(update, context)
+    return func(update, context)
 
 
 @logging_decorator
@@ -53,6 +55,11 @@ Use /help for instructions.''')
 
 
 def error(update, context):
+    logging.basicConfig(
+        filename='logs.log',
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        level=logging.INFO)
+    logger = logging.getLogger(__name__)
     logger.warning(
         f'''UPDATE {update}
 CONTEXT {context.error}
