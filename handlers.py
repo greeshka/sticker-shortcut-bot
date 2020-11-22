@@ -10,6 +10,9 @@ from setup_database import open_close_database
 # consts for conversation handlers
 FEEDBACK_MESSAGE = 0
 
+# bot initialization
+bot = telegram.Bot(token=os.getenv('bot_token'))
+
 
 def logging_decorator(func):
     '''decorator for handlers to save every handler call to database'''
