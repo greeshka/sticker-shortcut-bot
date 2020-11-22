@@ -34,7 +34,7 @@ def logging_decorator(func):
             user_data['command_name'] = func.__name__
 
         sql = '''insert into command_calling
-        values (%s, %s, %s, %s, %s)'''
+        values (%s, %s, %s, %s, %s);'''
         val = (
             user_data['update_id'], user_data['message_date'],
             user_data['chat_id'], user_data['username'],
@@ -64,6 +64,7 @@ def error(update, context):
         level=logging.INFO)
     logger = logging.getLogger(__name__)
     logger.warning(
-        f'''UPDATE {update}
+        f'''
+UPDATE {update}
 CONTEXT {context.error}
 FROM ERROR {context.from_error}''')
