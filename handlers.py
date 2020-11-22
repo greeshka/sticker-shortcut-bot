@@ -29,6 +29,8 @@ def logging_decorator(func):
 
         mycursor.execute(sql, val)
 
+        return func(update, context)
+
 
 @logging_decorator
 def start(update, context):
