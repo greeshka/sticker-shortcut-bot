@@ -3,6 +3,7 @@ import os
 
 import telegram
 from telegram.ext import Updater, CommandHandler, ConversationHandler
+from telegram.ext import MessageHandler
 
 from handlers import start, helpX
 from handlers import error
