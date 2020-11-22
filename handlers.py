@@ -5,8 +5,18 @@ from setup_database import open_close_database
 
 def logging_decorator(func):
     @wraps(func)
-    @open_close_database
-    def inner(update, context, mydb=None, mycursor=None):
+    def inner(update, context):
+        load_dotenv()
+        database_token = os.getenv('database_token')
+
+        mydb = mysql.connector.connect(
+            host="localhost",
+            user="marcy",
+            password=database_token,
+            database='marcy_sticker_bot'
+        )
+        mycursor = mydb.cursor()
+
         user_data = {}
         user_data['update_id'] = update.update_id
         user_data['message_date'] = update.message.date
@@ -28,6 +38,9 @@ def logging_decorator(func):
         )
 
         mycursor.execute(sql, val)
+
+        mycursor.close()
+        mydb.close()
 
         return func(update, context)
 
