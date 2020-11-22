@@ -6,12 +6,13 @@ from telegram.ext import Updater, CommandHandler
 import logging
 
 from handlers import start
+from setup_database import setup_database
 
 # get bot_token
 load_dotenv()
 bot_token = os.environ.get("bot_token")
 
-# set up logging
+# set up logger
 logging.basicConfig(
     filename='logs.log',
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -25,6 +26,9 @@ dp = updater.dispatcher
 
 # add handlers
 dp.add_handler(CommandHandler('start', start))
+
+# set up database
+setup_database()
 
 # start bot
 updater.start_polling()
