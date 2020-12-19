@@ -3,11 +3,16 @@ import mysql.connector
 
 from functools import wraps
 
+from dotenv import load_dotenv
+
 
 def open_close_database(func):
     '''decorator to open and close database'''
     @wraps(func)
     def inner(*args, **kwargs):
+
+        load_dotenv()
+
         database_token = os.getenv('database_token')
 
         mydb = mysql.connector.connect(
