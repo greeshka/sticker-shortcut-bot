@@ -83,7 +83,7 @@ def setup_database(mydb, mycursor):
     if len(result) == 0:
         sql = '''insert into pack_info
             values (%s, %s, %s, %s)'''
-        val = (1, 'default', 1, '2020-12-20 00:00:00')
+        val = (1, 'default', -1, '2020-12-20 00:00:00')
         mycursor.execute(sql, val)
 
     # table with stickers in pack
