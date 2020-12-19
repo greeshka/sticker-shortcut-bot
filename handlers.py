@@ -61,7 +61,10 @@ def logging_decorator(func):
         if func.__name__ == 'start':
             sql = '''select * from user_info where user_id = %s'''
             val = (update.message.from_user.id,)
-            result = mycursor.execute(sql, val).fetchall()
+            mycursor.execute(sql, val)
+            result = mycursor.fetchall()
+
+            # result should be empty if there is no such user
             if len(result) == 0:
                 first_interaction(update, mycursor)
 
