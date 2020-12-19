@@ -70,7 +70,7 @@ def setup_database(mydb, mycursor):
     # table with sticker packs info
     mycursor.execute('''
     create table if not exists pack_info (
-        pack_id int PRIMARY KEY,
+        pack_id int AUTO_INCREMENT,
         pack_name varchar(255),
         pack_author_id int,
         create_dttm datetime
