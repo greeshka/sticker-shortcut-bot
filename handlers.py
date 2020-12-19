@@ -61,7 +61,7 @@ def logging_decorator(func):
         if func.__name__ == 'start':
             sql = '''select * from user_info where user_id = %s'''
             val = (update.message.from_user.id,)
-            result = mysql.execute(sql, val).fetchall()
+            result = mycursor.execute(sql, val).fetchall()
             if len(result) == 0:
                 first_interaction(update, mycursor)
 
