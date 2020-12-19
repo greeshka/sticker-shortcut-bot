@@ -59,20 +59,11 @@ def logging_decorator(func):
 
         # add user to user_info if this their first start
         if func.__name__ == 'start':
-            user_data = {}
-            user_data['user_id'] = update.message.from_user.id
-            user_data['username'] = update.message.chat.username
-            user_data['language_code'] = update.message.from_user.language_code
-            user_data['call_dttm'] = update.message.date.strftime(
-                '%Y-%m-%d %H:%M:%S')
-
-            sql = '''insert ignore into user_info
-                values (%s, %s, %s, %s);'''
-            val = (
-                user_data['user_id'], user_data['username'],
-                user_data['language_code'], user_data['call_dttm']
-            )
-            mycursor.execute(sql, val)
+            sql = '''select * from user_info where user_id = %s'''
+            val = (update.message.from_user.id,)
+            result = mysql.execute(sql, val).fetchall()
+            if len(result) == 0:
+                first_interaction(update, mycursor)
 
         mydb.commit()
 
@@ -81,6 +72,30 @@ def logging_decorator(func):
 
         return func(update, context)
     return inner
+
+
+def first_interaction(update, mycursor):
+    '''Sets up tables for this user.
+Must do:
+1. Add user to user_info
+2. Add private pack for user to pack_info
+3. Add private pack and default pack to user_packs'''
+
+    # add user to user_info
+    user_data = {}
+    user_data['user_id'] = update.message.from_user.id
+    user_data['username'] = update.message.chat.username
+    user_data['language_code'] = update.message.from_user.language_code
+    user_data['call_dttm'] = update.message.date.strftime(
+        '%Y-%m-%d %H:%M:%S')
+
+    sql = '''insert into user_info
+        values (%s, %s, %s, %s);'''
+    val = (
+        user_data['user_id'], user_data['username'],
+        user_data['language_code'], user_data['call_dttm']
+    )
+    mycursor.execute(sql, val)
 
 
 @logging_decorator
