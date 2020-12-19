@@ -57,16 +57,16 @@ def logging_decorator(func):
         )
         mycursor.execute(sql, val)
 
-        # add user to user_info if this their first start
+        # check if this is first interaction with the bot
         if func.__name__ == 'start':
             sql = '''select * from user_info where user_id = %s'''
             val = (update.message.from_user.id,)
             mycursor.execute(sql, val)
             result = mycursor.fetchall()
 
-            # result should be empty if there is no such user
+            # if nothing is returned set everything up for further use
             if len(result) == 0:
-                first_interaction(update, mycursor)
+                first_interaction_setup(update, mycursor)
 
         mydb.commit()
 
@@ -77,7 +77,7 @@ def logging_decorator(func):
     return inner
 
 
-def first_interaction(update, mycursor):
+def first_interaction_setup(update, mycursor):
     '''Sets up tables for this user.
 Must do:
 1. Add user to user_info
