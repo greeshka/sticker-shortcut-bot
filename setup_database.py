@@ -77,6 +77,15 @@ def setup_database(mydb, mycursor):
     );
     ''')
 
+    # insert default pack
+    mycursor.execute('select * from pack_info where pack_id = 1')
+    result = mycursor.fetchall()
+    if len(result) == 0:
+        sql = '''insert into pack_info
+            values (%s, %s, %s, %s)'''
+        val = (1, 'default', 1, '2020-12-20 00:00:00')
+        mycursor.execute(sql, val)
+
     # table with stickers in pack
     mycursor.execute('''
     create table if not exists pack_stickers (
@@ -87,6 +96,8 @@ def setup_database(mydb, mycursor):
         added_dttm datetime
     );
     ''')
+
+    # insert default pack to pack_info
 
 
 if __name__ == '__main__':
