@@ -4,8 +4,6 @@ import mysql.connector
 
 import logging
 
-from setup_database import open_close_database
-
 import telegram
 from telegram.ext import ConversationHandler
 
