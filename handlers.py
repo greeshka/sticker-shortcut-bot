@@ -36,10 +36,10 @@ def logging_decorator(func):
         # get all information needed
         user_data = {}
         user_data['update_id'] = update.update_id
-        user_data['message_datetime'] = update.message.date.strftime(
+        user_data['call_dttm'] = update.message.date.strftime(
             '%Y-%m-%d %H:%M:%S')
         user_data['chat_id'] = update.message.chat.id
-        user_data['username'] = update.message.chat.username
+        user_data['user_id'] = update.message.from_user.id
 
         # because there is a confusion between python help and bot help
         if func.__name__ == 'helpX':
@@ -48,11 +48,11 @@ def logging_decorator(func):
             user_data['command_name'] = func.__name__
 
         # insert all information into database
-        sql = '''insert into command_calling
+        sql = '''insert into command_calls
         values (%s, %s, %s, %s, %s);'''
         val = (
-            user_data['update_id'], user_data['message_datetime'],
-            user_data['chat_id'], user_data['username'],
+            user_data['update_id'], user_data['call_dttm'],
+            user_data['chat_id'], user_data['user_id'],
             user_data['command_name']
         )
         mycursor.execute(sql, val)
