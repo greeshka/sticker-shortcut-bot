@@ -107,7 +107,8 @@ Must do:
     user_data['create_dttm'] = update.message.date.strftime(
         '%Y-%m-%d %H:%M:%S')
 
-    sql = '''insert into pack_info
+    sql = '''insert into pack_info (
+        pack_name, pack_author_id, create_dttm)
         values (%s, %s, %s)'''
     val = (
         user_data['pack_name'], user_data['pack_author_id'],
