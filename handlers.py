@@ -49,13 +49,31 @@ def logging_decorator(func):
 
         # insert all information into database
         sql = '''insert into command_calls
-        values (%s, %s, %s, %s, %s);'''
+            values (%s, %s, %s, %s, %s);'''
         val = (
             user_data['update_id'], user_data['call_dttm'],
             user_data['chat_id'], user_data['user_id'],
             user_data['command_name']
         )
         mycursor.execute(sql, val)
+
+        # add user to user_info if this their first start
+        if func.__name__ == 'start':
+            user_data = {}
+            user_data['user_id'] = update.message.from_user.id
+            user_data['username'] = update.message.chat.username
+            user_data['language_code'] = update.message.from_user.language_code
+            user_data['call_dttm'] = update.message.date.strftime(
+                '%Y-%m-%d %H:%M:%S')
+
+            sql = '''insert ignore into user_info
+                values (%s, %s, %s, %s);'''
+            val = (
+                user_data['user_id'], user_data['username'],
+                user_data['language_code'], user_data['call_dttm']
+            )
+            mycursor.execute(sql, val)
+
         mydb.commit()
 
         mycursor.close()
