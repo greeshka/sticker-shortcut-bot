@@ -112,13 +112,13 @@ def setup_database(mydb, mycursor):
 
         sql = '''insert into pack_stickers
             values (%s, %s, %s, %s, %s)'''
-        default_stickers_list = default_stickers[[
+        val = default_stickers[[
             'pack_id', 'sticker_id', 'sticker_shortcut', 'user_added_id',
             'added_dttm'
         ]].values.tolist()
-        val = [tuple(x) for x in default_stickers_list]
+        # val = [tuple(x) for x in default_stickers_list]
 
-        mycursor.execute(sql, val)
+        mycursor.executemany(sql, val)
 
 
 if __name__ == '__main__':
