@@ -93,7 +93,7 @@ def setup_database(mydb, mycursor):
     # table with stickers in pack
     mycursor.execute('''
     create table if not exists pack_stickers (
-        pack_id int PRIMARY KEY,
+        pack_id int,
         sticker_id int,
         sticker_shortcut varchar(255),
         user_added_id int,
@@ -116,7 +116,6 @@ def setup_database(mydb, mycursor):
             'pack_id', 'sticker_id', 'sticker_shortcut', 'user_added_id',
             'added_dttm'
         ]].values.tolist()
-        # val = [tuple(x) for x in default_stickers_list]
 
         mycursor.executemany(sql, val)
 
