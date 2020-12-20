@@ -9,6 +9,8 @@ from telegram.ext import ConversationHandler
 
 from dotenv import load_dotenv
 
+from first_interaction import first_interaction_setup
+
 # load tokens
 load_dotenv()
 
@@ -75,48 +77,6 @@ def logging_decorator(func):
 
         return func(update, context)
     return inner
-
-
-def first_interaction_setup(update, mycursor):
-    '''Sets up tables for this user.
-Must do:
-1. Add user to user_info +
-2. Add private pack for user to pack_info +
-3. Add private pack and default pack to user_packs - '''
-
-    # add user to user_info
-    user_data = {}
-    user_data['user_id'] = update.message.from_user.id
-    user_data['username'] = update.message.chat.username
-    user_data['language_code'] = update.message.from_user.language_code
-    user_data['call_dttm'] = update.message.date.strftime(
-        '%Y-%m-%d %H:%M:%S')
-
-    sql = '''insert into user_info
-        values (%s, %s, %s, %s);'''
-    val = (
-        user_data['user_id'], user_data['username'],
-        user_data['language_code'], user_data['call_dttm']
-    )
-    mycursor.execute(sql, val)
-
-    # add private pack for user to pack_info
-    user_data = {}
-    user_data['pack_name'] = 'private'
-    user_data['pack_author_id'] = update.message.from_user.id
-    user_data['create_dttm'] = update.message.date.strftime(
-        '%Y-%m-%d %H:%M:%S')
-
-    sql = '''insert into pack_info (
-        pack_name, pack_author_id, create_dttm)
-        values (%s, %s, %s)'''
-    val = (
-        user_data['pack_name'], user_data['pack_author_id'],
-        user_data['create_dttm']
-    )
-    mycursor.execute(sql, val)
-
-    # add private and default packs to default packs
 
 
 @logging_decorator

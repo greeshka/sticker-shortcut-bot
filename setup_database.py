@@ -79,7 +79,7 @@ def create_user_packs(mycursor):
 by default everyone can use default pack and his private pack'''
     mycursor.execute('''
         create table if not exists user_packs (
-            user_id int PRIMARY KEY,
+            user_id int,
             pack_id int,
             added_dttm datetime
         );
