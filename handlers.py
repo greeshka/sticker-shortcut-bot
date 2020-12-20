@@ -81,7 +81,7 @@ def first_interaction_setup(update, mycursor):
     '''Sets up tables for this user.
 Must do:
 1. Add user to user_info +
-2. Add private pack for user to pack_info - not tested
+2. Add private pack for user to pack_info +
 3. Add private pack and default pack to user_packs - '''
 
     # add user to user_info

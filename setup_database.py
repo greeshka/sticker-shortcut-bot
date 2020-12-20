@@ -5,6 +5,8 @@ from functools import wraps
 
 from dotenv import load_dotenv
 
+import pandas as pd
+
 
 def open_close_database(func):
     '''decorator to open and close database'''
@@ -24,6 +26,8 @@ def open_close_database(func):
         mycursor = mydb.cursor()
 
         to_return = func(mydb=mydb, mycursor=mycursor, *args, **kwargs)
+
+        mydb.commit()
 
         mycursor.close()
         mydb.close()
@@ -83,7 +87,7 @@ def setup_database(mydb, mycursor):
     if len(result) == 0:
         sql = '''insert into pack_info
             values (%s, %s, %s, %s)'''
-        val = (1, 'default', -1, '2020-12-20 00:00:00')
+        val = (1, 'default', -1, '1960-01-01 00:00:00')
         mycursor.execute(sql, val)
 
     # table with stickers in pack
@@ -97,7 +101,22 @@ def setup_database(mydb, mycursor):
     );
     ''')
 
-    # insert default pack to pack_info
+    # insert default pack stickers to pack_stickers
+    mycursor.execute('select * from pack_stickers where pack_id = 1')
+    result = mycursor.fetchall()
+    if len(result) == 0:
+        default_stickers = pd.read_csv('data/default_stickers.csv')
+        default_stickers['pack_id'] = 1
+        default_stickers['user_added_id'] = -1
+        default_stickers['added_dttm'] = '1960-01-01 00:00:00'
+
+        sql = '''insert into pack_stickers
+            values (%s, %s, %s, %s, %s)'''
+        val = default_stickers[[
+            'pack_id', 'sticker_id', 'sticker_shortcut', 'user_added_id',
+            'added_dttm'
+        ]].values.tolist()
+        mycursor.execute(sql, val)
 
 
 if __name__ == '__main__':
