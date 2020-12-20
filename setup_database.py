@@ -94,7 +94,7 @@ def setup_database(mydb, mycursor):
     mycursor.execute('''
     create table if not exists pack_stickers (
         pack_id int,
-        sticker_id int,
+        sticker_id varchar(255),
         sticker_shortcut varchar(255),
         user_added_id int,
         added_dttm datetime
