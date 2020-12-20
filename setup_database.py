@@ -38,50 +38,66 @@ def open_close_database(func):
 
 @open_close_database
 def setup_database(mydb, mycursor):
-    '''function to create all needed tables if they don't exist'''
+    '''function to create all needed tables if they don't exist and
+then insert default values'''
 
-    # table with command calls
+    create_command_calls(mycursor)
+    create_user_info(mycursor)
+    create_user_packs(mycursor)
+    create_pack_info(mycursor)
+    create_pack_stickers(mycursor)
+
+
+def create_command_calls(mycursor):
+    '''create table with all bot command calls'''
+
     mycursor.execute('''
-    create table if not exists command_calls (
-        update_id int PRIMARY KEY,
-        call_dttm datetime,
-        chat_id int,
-        user_id varchar(255),
-        command_name varchar(255)
-    );''')
+        create table if not exists command_calls (
+            update_id int PRIMARY KEY,
+            call_dttm datetime,
+            chat_id int,
+            user_id varchar(255),
+            command_name varchar(255)
+        );
+        ''')
 
-    # table with user info
-    # every user must appear only once
+
+def create_user_info(mycursor):
+    '''create table with all users who used /start at least once'''
     mycursor.execute('''
-    create table if not exists user_info (
-        user_id int PRIMARY KEY,
-        username varchar(255),
-        language_code varchar(255),
-        start_dttm datetime
-    );
-    ''')
+        create table if not exists user_info (
+            user_id int PRIMARY KEY,
+            username varchar(255),
+            language_code varchar(255),
+            start_dttm datetime
+        );
+        ''')
 
-    # table with packs that user can use
-    # by default everyone should have default pack
+
+def create_user_packs(mycursor):
+    '''create table with packs that this user can use
+by default everyone can use default pack and his private pack'''
     mycursor.execute('''
-    create table if not exists user_packs (
-        user_id int PRIMARY KEY,
-        pack_id int,
-        added_dttm datetime
-    );
-    ''')
+        create table if not exists user_packs (
+            user_id int PRIMARY KEY,
+            pack_id int,
+            added_dttm datetime
+        );
+        ''')
 
-    # table with sticker packs info
+
+def create_pack_info(mycursor):
+    '''create table with description of all existing packs
+and insert default pack'''
     mycursor.execute('''
-    create table if not exists pack_info (
-        pack_id int AUTO_INCREMENT PRIMARY KEY,
-        pack_name varchar(255),
-        pack_author_id int,
-        create_dttm datetime
-    );
-    ''')
+        create table if not exists pack_info (
+            pack_id int AUTO_INCREMENT PRIMARY KEY,
+            pack_name varchar(255),
+            pack_author_id int,
+            create_dttm datetime
+        );
+        ''')
 
-    # insert default pack
     mycursor.execute('select * from pack_info where pack_id = 1')
     result = mycursor.fetchall()
     if len(result) == 0:
@@ -90,18 +106,19 @@ def setup_database(mydb, mycursor):
         val = (1, 'default', -1, '1960-01-01 00:00:00')
         mycursor.execute(sql, val)
 
-    # table with stickers in pack
-    mycursor.execute('''
-    create table if not exists pack_stickers (
-        pack_id int,
-        sticker_id varchar(255),
-        sticker_shortcut varchar(255),
-        user_added_id int,
-        added_dttm datetime
-    );
-    ''')
 
-    # insert default pack stickers to pack_stickers
+def create_pack_stickers(mycursor):
+    '''create table for stickers in pack and insert default pack stikers'''
+    mycursor.execute('''
+        create table if not exists pack_stickers (
+            pack_id int,
+            sticker_id varchar(255),
+            sticker_shortcut varchar(255),
+            user_added_id int,
+            added_dttm datetime
+        );
+        ''')
+
     mycursor.execute('select * from pack_stickers where pack_id = 1')
     result = mycursor.fetchall()
     if len(result) == 0:
