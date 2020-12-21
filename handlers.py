@@ -189,4 +189,4 @@ def add_sticker_preference(mydb, mycursor, user_data):
         pack_id, user_data['sticker_id'], user_data['sticker_shortcut'],
         user_data['user_added_id'], user_data['added_dttm']
     ]
-    mycursor.executemany(sql, val)
+    mycursor.execute(sql, val)
