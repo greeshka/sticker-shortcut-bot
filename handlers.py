@@ -177,7 +177,7 @@ def add_sticker_preference(mydb, mycursor, user_data):
     pack_name = 'private'
     sql = '''select pack_id from pack_info
         where pack_name = %s and pack_author_id = %s'''
-    val = [pack_name, user_data['user_id']]
+    val = [pack_name, user_data['user_added_id']]
 
     mycursor.execute(sql, val)
     result = mycursor.fetchall()
