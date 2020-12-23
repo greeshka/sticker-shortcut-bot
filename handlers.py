@@ -239,8 +239,8 @@ def sticker_list_by_query(mydb, mycursor, user_id, query):
         on true
             and t1.user_id = %s
             and t1.pack_id = t2.pack_id
-            and t2.sticker_shortcut like \'%%s%\';'''
-    val = (user_id, query)
+            and t2.sticker_shortcut like %s;'''
+    val = (user_id, '%' + query + '%')
     mycursor.execute(sql, val)
     result = mycursor.fetchall()
 
