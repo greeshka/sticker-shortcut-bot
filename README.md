@@ -2,7 +2,7 @@
 This bot helps you to access stickers from keyboard! You can save stickers with shortcuts and then find them in any chat by calling the bot in inline mode. <br> <br>
 I was inspired by Slack emojis. <br> <br>
 Feel free to try: [StickerKeyboardBot](https://t.me/StickerKeyboardBot) <br> <br>
-Right now the bot is not functioning due to complete changes in the structure. 
+<b>Right now the bot is not functioning due to complete changes in the structure.</b> 
 
 ## How does it work?
 
