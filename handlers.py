@@ -96,10 +96,11 @@ def helpX(update, context):
     update.message.reply_text("""
 To send stickers type @StickerKeyboardBot in any chat and begin typing name \
 of the sticker you've already saved.
-If you haven't saved any stickers yet you can always send the smiling_frog \
-from the bot profile photo!
-By the way you can start typing from the middle of the word, "fr", for \
-example, and the bot will still understand.
+If you haven't saved any stickers yet you can always send stickers \
+from the default pack.
+If sticker shortcut consists of more than two words, \"smiling_frog\" \
+for example, you can begin typing \"sm\" or \"fr\" and the sticker would \
+appear.
 
 To save stickers use /add_sticker and follow instructions.
 
