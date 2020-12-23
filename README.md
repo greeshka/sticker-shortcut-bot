@@ -2,11 +2,29 @@
 This bot helps you to access stickers from keyboard! You can save stickers with shortcuts and then find them in any chat by calling the bot in inline mode. <br> <br>
 I was inspired by Slack emojis. <br> <br>
 Feel free to try: [StickerKeyboardBot](https://t.me/StickerKeyboardBot) <br> <br>
-
-P.S. .py and .ipynb files are identical, I am just more comfortable with writing code in Jupyter Notebook (Sorry...) and running .py version of notebook in screen.
+Right now the bot is not functioning due to complete changes in the structure. 
 
 ## How does it work?
 
-You can begin a series of messages with /add_sticker command. Then a sticker_id for the sticker you've sent will be saved to preferences file with your username and shortcut (will be changed so that the bot doesn't read the whole file each time). After that you can call the bot in any chat in inline mode and begin to type some message. The bot will read the preferences file and suggest your personal stickers and stickers for everyone, shortcuts for which contain your message as a subline. <br><br>
-I also log every command call with a decorator so that when many people would actually use it, I could understand, where do people struggle. <br><br>
-Any suggestions will be appreciated!
+This bot heavily relies on [python-telegram-bot](https://github.com/python-telegram-bot/python-telegram-bot) package. There is a MySQL database with sticker packs. When user tries to send a sticker, script searches through all sticker packs assigned to him and lists all sticker which shortcut matches what user sends. Users can also save stickers to database with their own shortcuts for personal use.  
+
+## Repository structure
+
+Main file is `bot.py`. Handling different commands and whole conversations is done in `handlers.py`. `setup_database.py` is a file for creating all tables needed for sticker database. Preparing the bot for a new user is done in `first_interaction.py`.
+
+## Plans for the future
+
+- Complete basic features:
+  - Saving stickers to private pack.
+  - Sending stickers from default and private pack.
+- Test this bot with a small amount of people. 
+- Collect feedback and decide if the bot is ready for mass use or if it misses crucial features.
+- Add crucial features if there are any.
+- Advertise the bot somehow.
+
+## Possible steps
+
+- Add tests. Right now I don't understand what is the best way of doing this for the bot.
+- Add some sort of tools to analyze usage of the bot to search for possible problems.
+- Add some tools to track enjoyment from the bot. 
+- ??? I would be happy to receive any advice!
