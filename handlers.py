@@ -5,7 +5,9 @@ import mysql.connector
 import logging
 
 import telegram
-from telegram.ext import ConversationHandler
+from telegram.ext import (
+    ConversationHandler, CommandHandler, MessageHandler, Filters
+    )
 
 from dotenv import load_dotenv
 
@@ -114,9 +116,19 @@ def error(update, context):
     logger = logging.getLogger(__name__)
     logger.warning(
         f'''
+
 UPDATE {update}
 CONTEXT {context.error}
 FROM ERROR {context.from_error}''')
+
+
+def get_conv_feedback_handler():
+    return ConversationHandler(
+        entry_points=[CommandHandler('feedback', feedback_call)],
+        states={FEEDBACK_MESSAGE: [MessageHandler(
+            filters=None, callback=feedback_message
+        )]},
+        fallbacks=[CommandHandler('cancel', cancel)])
 
 
 @logging_decorator
@@ -143,7 +155,17 @@ def cancel(update, context):
     return ConversationHandler.END
 
 
-# add sticker conversation
+def get_conv_sticker_handler():
+    return ConversationHandler(
+        entry_points=[CommandHandler('add_sticker', add_sticker)],
+        states={
+            STICKER: [MessageHandler(Filters.sticker, sticker)],
+            STICKER_SHORTCUT: [MessageHandler(Filters.text, sticker_shortcut)]
+        },
+        fallbacks=[CommandHandler('cancel', cancel)]
+        )
+
+
 @logging_decorator
 def add_sticker(update, context):
     update.message.reply_text('Send a sticker you wish to save')
