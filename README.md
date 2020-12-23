@@ -1,6 +1,6 @@
 ## Telegram bot for typing stickers from keyboard
 This bot helps you to access stickers from keyboard! You can save stickers with shortcuts and then find them in any chat by calling the bot in inline mode. <br> <br>
-I was inspired by Slack emojis. <br> <br>
+I was inspired by Slack emojis. The main idea is to easily send stickers without need to search them in many sticker packs. You remember a sticker -> you search it by its name -> you send it!<br> <br>
 Feel free to try: [StickerKeyboardBot](https://t.me/StickerKeyboardBot) <br> <br>
 <b>Right now the bot is not functioning due to complete changes in the structure.</b> 
 
