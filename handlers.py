@@ -232,7 +232,7 @@ def inline_query(update, context):
 def sticker_list_by_query(mydb, mycursor, user_id, query):
     sql = '''
         select
-            t2.sticker_shortcut
+            t2.sticker_id
         from user_packs t1
 
             inner join pack_stickers t2
