@@ -2,12 +2,13 @@ from dotenv import load_dotenv
 import os
 
 import telegram
-from telegram.ext import Updater, CommandHandler
+from telegram.ext import Updater, CommandHandler, InlineQueryHandler
 
 from handlers import (
     start, helpX,
     error,
-    get_conv_feedback_handler, get_conv_sticker_handler)
+    get_conv_feedback_handler, get_conv_sticker_handler,
+    inline_query)
 
 from setup_database import setup_database
 
@@ -28,6 +29,8 @@ dp.add_handler(CommandHandler('help', helpX))
 
 dp.add_handler(get_conv_feedback_handler())
 dp.add_handler(get_conv_sticker_handler())
+
+dp.add_handler(InlineQueryHandler(inline_query))
 
 # set up database
 setup_database()
