@@ -154,13 +154,13 @@ def my_stickers(update, context, mydb, mycursor):
             'sticker_shortcut'
             ].apply(lambda x: x.tolist()).reset_index().values.tolist()
 
-    answer = '\n\n'.join(
-        f'*{pack}*:\n' + '\n'.join(stickers)
+    answer = '<br><br>'.join(
+        f'<b>{pack}</b>:<br>' + '<br>'.join(stickers)
         for pack, stickers in pack_sticker_list)
 
     update.message.reply_text(
-        f'These are sticker you can use by packs:\n\n{answer}',
-        parse_mode=telegram.ParseMode.MARKDOWN)
+        f'These are sticker you can use by packs:<br><br>{answer}',
+        parse_mode=telegram.ParseMode.HTML)
 
 
 def get_conv_feedback_handler():
