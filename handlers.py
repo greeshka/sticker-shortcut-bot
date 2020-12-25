@@ -99,10 +99,11 @@ Use /help for instructions.''')
 def helpX(update, context):
     update.message.reply_text("""<b>How to use the bot</b>
 
-To send stickers type @StickerKeyboardBot in any chat and begin typing name \
-of the sticker.
+To send stickers type @StickerKeyboardBot in any chat and begin typing the \
+name of the sticker.
 
-You can look at the list of stickers to use with /my_stickers command. \
+You can look at the list of stickers you can use right now with \
+/my_stickers command.
 You already have stickers from the default pack.
 
 Bot searches stickers that contain your inline query as a substring, \
