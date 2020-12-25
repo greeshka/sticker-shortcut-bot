@@ -8,7 +8,8 @@ from handlers import (
     start, helpX,
     error,
     get_conv_feedback_handler, get_conv_sticker_handler,
-    inline_query)
+    inline_query,
+    my_stickers)
 
 from setup_database import setup_database
 
@@ -31,6 +32,8 @@ dp.add_handler(get_conv_feedback_handler())
 dp.add_handler(get_conv_sticker_handler())
 
 dp.add_handler(InlineQueryHandler(inline_query))
+
+dp.add_handler(CommandHandler('my_stickers', my_stickers))
 
 # set up database
 setup_database()

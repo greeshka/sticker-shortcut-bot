@@ -125,6 +125,37 @@ CONTEXT {context.error}
 FROM ERROR {context.from_error}''')
 
 
+def my_stickers(mydb, mycursor, update, context):
+    user_id = update.message.from_user.id
+    sql = '''
+        select
+            t2.pack_name,
+            t3.sticker_shortcut
+        from user_packs t1
+
+            inner join pack_info t2
+            on true
+                and t1.user_id = %s
+                and t1.pack_id = t2.pack_id
+
+            inner join pack_stickers t3
+            on t1.pack_id = t3.pack_id
+            ;'''
+    val = (user_id,)
+    mycursor.execute(sql, val)
+
+    pack_shortcut = mycursor.fetchall()
+    pack_sticker_list = pack_shortcut.groupby('pack_name')[
+        'sticker_shortcut'
+        ].apply(lambda x: x.tolist()).reset_index().values.tolist()
+
+    answer = '\n\n'.join(
+        f'{pack}:\n' + '\n'.join(stickers)
+        for pack, stickers in pack_sticker_list)
+
+    update.message.reply_text(answer)
+
+
 def get_conv_feedback_handler():
     return ConversationHandler(
         entry_points=[CommandHandler('feedback', feedback_call)],
