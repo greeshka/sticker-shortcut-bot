@@ -10,6 +10,8 @@ from telegram.ext import (
     ConversationHandler, CommandHandler, MessageHandler, Filters
     )
 
+import pandas as pd
+
 from dotenv import load_dotenv
 
 from uuid import uuid4
@@ -146,7 +148,7 @@ def my_stickers(update, context, mydb, mycursor):
     mycursor.execute(sql, val)
 
     pack_shortcut = mycursor.fetchall()
-    pack_sticker_list = pack_shortcut.groupby('pack_name')[
+    pack_sticker_list = pd.DataFrame(pack_shortcut).groupby('pack_name')[
         'sticker_shortcut'
         ].apply(lambda x: x.tolist()).reset_index().values.tolist()
 
