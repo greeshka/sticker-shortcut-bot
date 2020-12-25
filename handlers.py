@@ -159,7 +159,8 @@ def my_stickers(update, context, mydb, mycursor):
         for pack, stickers in pack_sticker_list)
 
     update.message.reply_text(
-        f'These are sticker you can use by packs:\n\n{answer}',
+        f'These are stickers you can currently use \
+sorted by packs:\n\n{answer}',
         parse_mode='html')
 
 
