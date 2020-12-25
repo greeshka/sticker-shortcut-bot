@@ -160,7 +160,7 @@ def my_stickers(update, context, mydb, mycursor):
 
     update.message.reply_text(
         f'These are sticker you can use by packs:<br><br>{answer}',
-        parse_mode=telegram.ParseMode.HTML)
+        parse_mode='html')
 
 
 def get_conv_feedback_handler():
