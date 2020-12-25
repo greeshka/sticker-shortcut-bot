@@ -125,6 +125,7 @@ CONTEXT {context.error}
 FROM ERROR {context.from_error}''')
 
 
+@open_close_database
 def my_stickers(update, context, mydb, mycursor):
     user_id = update.message.from_user.id
     sql = '''
