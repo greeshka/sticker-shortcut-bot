@@ -154,12 +154,12 @@ def my_stickers(update, context, mydb, mycursor):
             'sticker_shortcut'
             ].apply(lambda x: x.tolist()).reset_index().values.tolist()
 
-    answer = '<br><br>'.join(
-        f'<b>{pack}</b>:<br>' + '<br>'.join(stickers)
+    answer = '\n\n'.join(
+        f'<b>{pack}</b>:\n' + '\n'.join(stickers)
         for pack, stickers in pack_sticker_list)
 
     update.message.reply_text(
-        f'These are sticker you can use by packs:<br><br>{answer}',
+        f'These are sticker you can use by packs:\n\n{answer}',
         parse_mode='html')
 
 
