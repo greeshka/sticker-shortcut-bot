@@ -173,7 +173,7 @@ def get_conv_feedback_handler():
     return ConversationHandler(
         entry_points=[CommandHandler('feedback', feedback_call)],
         states={FEEDBACK_MESSAGE: [MessageHandler(
-            filters=None, callback=feedback_message
+            filters=Filters.text, callback=feedback_message
         )]},
         fallbacks=[CommandHandler('cancel', cancel)])
 
