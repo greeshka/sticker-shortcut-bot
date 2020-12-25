@@ -97,18 +97,22 @@ Use /help for instructions.''')
 
 @logging_decorator
 def helpX(update, context):
-    update.message.reply_text("""
+    update.message.reply_text("""<b>How to use the bot</b>
+
 To send stickers type @StickerKeyboardBot in any chat and begin typing name \
 of the sticker.
+
 You can look at the list of stickers to use with /my_stickers command. \
 You already have stickers from the default pack.
-Bot searches stickers that contain yout inline query as a substring, \
+
+Bot searches stickers that contain your inline query as a substring, \
 therefore you can find \"smiling_frog\" sticker typing \"sm\" or \
 \"fr\" or even nothing!
 
-To save stickers use /add_sticker and follow instructions.
+To save stickers use /add_sticker and follow instructions. Right now you \
+can only save stickers to your private pack.
 
-If you wish to share some feedback feel free to use /feedback
+If you wish to share some feedback feel free to use /feedback.
 
 Good luck!""")
 
