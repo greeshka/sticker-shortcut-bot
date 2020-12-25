@@ -114,7 +114,7 @@ can only save stickers to your private pack.
 
 If you wish to share some feedback feel free to use /feedback.
 
-Good luck!""")
+Good luck!""", parse_mode='html')
 
 
 def error(update, context):
