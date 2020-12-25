@@ -155,10 +155,12 @@ def my_stickers(update, context, mydb, mycursor):
             ].apply(lambda x: x.tolist()).reset_index().values.tolist()
 
     answer = '\n\n'.join(
-        f'{pack}:\n' + '\n'.join(stickers)
+        f'*{pack}*:\n' + '\n'.join(stickers)
         for pack, stickers in pack_sticker_list)
 
-    update.message.reply_text(answer)
+    update.message.reply_text(
+        f'These are sticker you can use by packs:\n\n{answer}',
+        parse_mode=telegram.ParseMode.MARKDOWN)
 
 
 def get_conv_feedback_handler():
