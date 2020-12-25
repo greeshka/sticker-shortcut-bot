@@ -148,9 +148,11 @@ def my_stickers(update, context, mydb, mycursor):
     mycursor.execute(sql, val)
 
     pack_shortcut = mycursor.fetchall()
-    pack_sticker_list = pd.DataFrame(pack_shortcut).groupby('pack_name')[
-        'sticker_shortcut'
-        ].apply(lambda x: x.tolist()).reset_index().values.tolist()
+    pack_sticker_list = pd.DataFrame(
+        pack_shortcut,
+        columns=['pack_name', 'sticker_shortcut']).groupby('pack_name')[
+            'sticker_shortcut'
+            ].apply(lambda x: x.tolist()).reset_index().values.tolist()
 
     answer = '\n\n'.join(
         f'{pack}:\n' + '\n'.join(stickers)
