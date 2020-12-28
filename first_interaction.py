@@ -90,7 +90,7 @@ def add_role_on_private_pack(update, mycursor):
     result = mycursor.fetchall()
     private_pack_id = result[0][0]
 
-    sql = '''insert into user_packs
+    sql = '''insert into user_pack_roles
         values (%s, %s, %s, %s, %s)'''
     val = (
         user_data['user_id'], private_pack_id, 'admin', -1,
