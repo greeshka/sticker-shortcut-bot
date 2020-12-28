@@ -4,6 +4,7 @@ def first_interaction_setup(update, mycursor):
     add_to_user_info(update, mycursor)
     add_private_pack_to_pack_info(update, mycursor)
     add_packs_to_user_packs(update, mycursor)
+    add_role_on_private_pack(update, mycursor)
 
 
 def add_to_user_info(update, mycursor):
@@ -68,3 +69,30 @@ def add_packs_to_user_packs(update, mycursor):
         [user_data['user_id'], private_pack_id, user_data['added_dttm']]
         ]
     mycursor.executemany(sql, val)
+
+
+def add_role_on_private_pack(update, mycursor):
+    '''grants admin role on private pack'''
+    user_data = {}
+    user_data['user_id'] = update.message.from_user.id
+    user_data['added_dttm'] = update.message.date.strftime(
+        '%Y-%m-%d %H:%M:%S')
+
+    sql = '''
+        select pack_id from pack_info
+        where
+            pack_author_id = %s
+            and pack_name = "private"
+            '''
+    val = (update.message.from_user.id,)
+    mycursor.execute(sql, val)
+
+    result = mycursor.fetchall()
+    private_pack_id = result[0][0]
+
+    sql = '''insert into user_packs
+        values (%s, %s, %s, %s, %s)'''
+    val = (
+        user_data['user_id'], private_pack_id, 'admin', -1,
+        user_data['added_dttm'])
+    mycursor.execute(sql, val)
