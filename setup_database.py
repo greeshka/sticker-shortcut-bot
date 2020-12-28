@@ -46,6 +46,7 @@ then insert default values'''
     create_user_packs(mycursor)
     create_pack_info(mycursor)
     create_pack_stickers(mycursor)
+    create_user_pack_roles(mycursor)
 
 
 def create_command_calls(mycursor):
@@ -135,6 +136,22 @@ def create_pack_stickers(mycursor):
         ]].values.tolist()
 
         mycursor.executemany(sql, val)
+
+
+def create_user_pack_roles(mycursor):
+    '''create table for admin roles for packs
+        there can be only one role per user-pack pair'''
+    mycursor.execute(
+        '''
+        create table if not exists user_pack_roles (
+            user_id int,
+            pack_id int,
+            role varchar(255),
+            user_granted_id int,
+            granted_dttm datetime
+            );
+        '''
+    )
 
 
 if __name__ == '__main__':
