@@ -1,15 +1,13 @@
 from dotenv import load_dotenv
 import os
 
-import telegram
-from telegram.ext import Updater, CommandHandler, InlineQueryHandler
+from telegram import Bot
+from telegram.ext import Updater
 
-from handlers import (
-    start, helpX,
-    error,
-    get_conv_feedback_handler, get_conv_sticker_handler,
-    inline_query,
-    my_stickers, my_packs)
+from basic_handlers import error, get_basic_handlers
+from info_handlers import get_info_handlers
+from add_to_db_handlers import get_add_to_db_handlers
+from inline_query_handlers import get_inline_query_handlers
 
 from setup_database import setup_database
 
@@ -18,23 +16,23 @@ load_dotenv()
 bot_token = os.environ.get("bot_token")
 
 # initialize bot and dispatcher
-bot = telegram.Bot(token=bot_token)
+bot = Bot(token=bot_token)
 updater = Updater(bot_token, use_context=True)
 dp = updater.dispatcher
 
 # add handlers
 dp.add_error_handler(error)
 
-dp.add_handler(CommandHandler('start', start))
-dp.add_handler(CommandHandler('help', helpX))
+handlers_list = []
+get_handlers_funcs = [
+    get_basic_handlers, get_info_handlers, get_add_to_db_handlers,
+    get_inline_query_handlers
+]
+for get_handlers in get_handlers_funcs:
+    handlers_list.extend(get_handlers())
 
-dp.add_handler(get_conv_feedback_handler())
-dp.add_handler(get_conv_sticker_handler())
-
-dp.add_handler(InlineQueryHandler(inline_query))
-
-dp.add_handler(CommandHandler('my_stickers', my_stickers))
-dp.add_handler(CommandHandler('my_packs', my_packs))
+for handler in handlers_list:
+    dp.add_handler(handler)
 
 # set up database
 setup_database()
