@@ -54,7 +54,14 @@ sorted by packs:\n\n{answer}',
 @open_close_database
 def my_packs(update, context, mydb, mycursor):
     user_id = update.message.from_user.id
+    answer = get_user_packs(user_id)
 
+    update.message.reply_text(
+        f'These are names and ids of packs you can currently use:\n\n{answer}')
+
+
+@open_close_database
+def get_user_packs(user_id, mydb, mycursor):
     sql = '''
         select
             t1.pack_id,
@@ -73,5 +80,4 @@ def my_packs(update, context, mydb, mycursor):
     answer = '\n'.join([
         f'{pack_name}: {pack_id}' for pack_id, pack_name in pack_id_name
         ])
-    update.message.reply_text(
-        f'These are names and ids of packs you can currently use:\n\n{answer}')
+    return answer
