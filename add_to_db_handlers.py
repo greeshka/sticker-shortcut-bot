@@ -96,7 +96,7 @@ def get_admin_packs(mydb, mycursor, user_id):
 
             inner join pack_info t2
             on true
-                and t1.user_id = 324338504
+                and t1.user_id = %s
                 and t1.role = 'admin'
                 and t1.pack_id = t2.pack_id;'''
     val = (user_id,)
