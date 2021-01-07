@@ -56,7 +56,6 @@ def sticker_shortcut(update, context):
     update.message.reply_text(f'''Now select an id of the pack to add to.
 Your packs with admin rights:\n\n{answer}''')
 
-    context.user_data.clear()
     return PACK_ID
 
 
