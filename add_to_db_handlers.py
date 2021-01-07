@@ -82,6 +82,9 @@ def pack_id(update, context):
     context.user_data['pack_id'] = pack_id
     add_sticker_preference(user_data=context.user_data)
 
+    update.message.reply_text(
+        'Sticker added successfully!')
+
     return ConversationHandler.END
 
 
