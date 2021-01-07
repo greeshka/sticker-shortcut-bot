@@ -81,7 +81,7 @@ def pack_id(update, context):
         return ConversationHandler.END
 
     context.user_data['pack_id'] = pack_id
-    add_sticker_preference(context.user_data)
+    add_sticker_preference(user_data=context.user_data)
 
     return ConversationHandler.END
 
