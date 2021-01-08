@@ -95,7 +95,8 @@ and insert default pack'''
             pack_id int AUTO_INCREMENT PRIMARY KEY,
             pack_name varchar(255),
             pack_author_id int,
-            create_dttm datetime
+            create_dttm datetime,
+            type varchar(255)
         );
         ''')
 
