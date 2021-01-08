@@ -104,8 +104,8 @@ and insert default pack'''
     result = mycursor.fetchall()
     if len(result) == 0:
         sql = '''insert into pack_info
-            values (%s, %s, %s, %s)'''
-        val = (1, 'default', -1, '1960-01-01 00:00:00')
+            values (%s, %s, %s, %s, %s)'''
+        val = (1, 'default', -1, '1960-01-01 00:00:00', 'public')
         mycursor.execute(sql, val)
 
 
