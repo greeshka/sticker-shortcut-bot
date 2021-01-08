@@ -32,13 +32,14 @@ def add_private_pack_to_pack_info(update, mycursor):
     user_data['pack_author_id'] = update.message.from_user.id
     user_data['create_dttm'] = update.message.date.strftime(
         '%Y-%m-%d %H:%M:%S')
+    user_data['type'] = 'private'
 
     sql = '''insert into pack_info (
-        pack_name, pack_author_id, create_dttm)
-        values (%s, %s, %s)'''
+        pack_name, pack_author_id, create_dttm, type)
+        values (%s, %s, %s, %s)'''
     val = (
         user_data['pack_name'], user_data['pack_author_id'],
-        user_data['create_dttm']
+        user_data['create_dttm'], user_data['type']
     )
     mycursor.execute(sql, val)
 

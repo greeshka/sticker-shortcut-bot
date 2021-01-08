@@ -118,3 +118,25 @@ def add_sticker_preference(mydb, mycursor, user_data):
         user_data['added_dttm']
     ]
     mycursor.execute(sql, val)
+
+
+def get_create_pack_handler():
+    return ConversationHandler(
+        entry_points=[CommandHandler('create_pack', create_pack)],
+        states={
+            SET_PACK_NAME: [MessageHandler(Filters.text, sticker)]
+        },
+        fallbacks=[CommandHandler('cancel', cancel)]
+        )
+
+
+@logging_decorator
+def create_pack(update, context):
+    update.message.reply_text('Send a sticker you wish to save')
+    return SET_PACK_NAME
+
+
+@open_close_database
+def set_pack_name(update, context, mydb, mycursor):
+    pack_name = update.message.text
+
