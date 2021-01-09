@@ -68,7 +68,7 @@ def add_packs_to_user_packs(update, mycursor):
     val = [
         [user_data['user_id'], 1, user_data['added_dttm']],
         [user_data['user_id'], private_pack_id, user_data['added_dttm']]
-        ]
+    ]
     mycursor.executemany(sql, val)
 
 
