@@ -173,6 +173,8 @@ def set_pack_name(update, context, mydb, mycursor):
     result = mycursor.fetchall()
     created_pack_id = result[0][0]
 
+    # add admin rights for new pack
+
     sql = '''insert into user_pack_roles
         values (%s, %s, %s, %s, %s)'''
     val = (
@@ -180,13 +182,16 @@ def set_pack_name(update, context, mydb, mycursor):
         user_data['create_dttm'])
     mycursor.execute(sql, val)
 
-    # sql = '''insert into user_packs
-    #     values (%s, %s, %s)'''
-    # val = (
-    #     user_data['pack_author_id'], created_pack_id,
-    #     user_data['create_dttm']
-    # )
-    # mycursor.execute(sql, val)
+    # add this pack to user packs
+
+    sql = '''insert into user_packs
+        values (%s, %s, %s)'''
+    val = (
+        user_data['pack_author_id'], created_pack_id,
+        user_data['create_dttm']
+    )
+    mycursor.execute(sql, val)
+
     update.message.reply_text('Pack created!')
 
     return ConversationHandler.END
