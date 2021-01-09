@@ -6,6 +6,7 @@ from telegram.ext import (
 
 # consts for conversation handlers
 STICKER, STICKER_SHORTCUT, PACK_ID = range(3)
+SET_PACK_NAME = 0
 
 
 def get_add_to_db_handlers():
@@ -120,23 +121,61 @@ def add_sticker_preference(mydb, mycursor, user_data):
     mycursor.execute(sql, val)
 
 
-# def get_create_pack_handler():
-#     return ConversationHandler(
-#         entry_points=[CommandHandler('create_pack', create_pack)],
-#         states={
-#             SET_PACK_NAME: [MessageHandler(Filters.text, sticker)]
-#         },
-#         fallbacks=[CommandHandler('cancel', cancel)]
-#         )
+def get_create_pack_handler():
+    return ConversationHandler(
+        entry_points=[CommandHandler('create_pack', create_pack)],
+        states={
+            SET_PACK_NAME: [MessageHandler(Filters.text, set_pack_name)]
+        },
+        fallbacks=[CommandHandler('cancel', cancel)]
+        )
 
 
-# @logging_decorator
-# def create_pack(update, context):
-#     update.message.reply_text('Send a sticker you wish to save')
-#     return SET_PACK_NAME
+@logging_decorator
+def create_pack(update, context):
+    update.message.reply_text('Send a name for your pack. \
+Keep in mind that for now all non-personal packs are public.')
+    return SET_PACK_NAME
 
 
-# @open_close_database
-# def set_pack_name(update, context, mydb, mycursor):
-#     pack_name = update.message.text
+@open_close_database
+def set_pack_name(update, context, mydb, mycursor):
+    user_data = {}
+    user_data['pack_name'] = update.message.text
+    user_data['pack_author_id'] = update.message.from_user.id
+    user_data['create_dttm'] = update.message.date.strftime(
+        '%Y-%m-%d %H:%M:%S')
+    user_data['type'] = 'public'
 
+    sql = '''insert into pack_info (
+        pack_name, pack_author_id, create_dttm, type)
+        values (%s, %s, %s, %s)'''
+    val = (
+        user_data['pack_name'], user_data['pack_author_id'],
+        user_data['create_dttm'], user_data['type']
+    )
+    mycursor.execute(sql, val)
+
+    # sql = '''
+    #     select
+    #         pack_id
+    #     from pack_info
+    #     where true
+    #         and pack_name = %s
+    #         and pack_author_id = %s
+    #         and create_dttm = %s'''
+    # val = (
+    #     user_data['pack_name'], user_data['pack_author_id'],
+    #     user_data['create_dttm']
+    # )
+    # mycursor.execute(sql, val)
+    # result = mycursor.fetchall()
+    # created_pack_id = result[0][0]
+
+    # sql = '''insert into user_packs
+    #     values (%s, %s, %s)'''
+    # val = (
+    #     user_data['pack_author_id'], created_pack_id,
+    #     user_data['create_dttm']
+    # )
+    # mycursor.execute(sql, val)
