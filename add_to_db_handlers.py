@@ -11,7 +11,8 @@ SET_PACK_NAME = 0
 
 def get_add_to_db_handlers():
     return [
-        get_conv_sticker_handler()
+        get_conv_sticker_handler(),
+        get_create_pack_handler()
     ]
 
 
