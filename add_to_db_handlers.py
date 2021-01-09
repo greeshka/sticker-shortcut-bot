@@ -157,21 +157,28 @@ def set_pack_name(update, context, mydb, mycursor):
     )
     mycursor.execute(sql, val)
 
-    # sql = '''
-    #     select
-    #         pack_id
-    #     from pack_info
-    #     where true
-    #         and pack_name = %s
-    #         and pack_author_id = %s
-    #         and create_dttm = %s'''
-    # val = (
-    #     user_data['pack_name'], user_data['pack_author_id'],
-    #     user_data['create_dttm']
-    # )
-    # mycursor.execute(sql, val)
-    # result = mycursor.fetchall()
-    # created_pack_id = result[0][0]
+    sql = '''
+        select
+            pack_id
+        from pack_info
+        where true
+            and pack_name = %s
+            and pack_author_id = %s
+            and create_dttm = %s'''
+    val = (
+        user_data['pack_name'], user_data['pack_author_id'],
+        user_data['create_dttm']
+    )
+    mycursor.execute(sql, val)
+    result = mycursor.fetchall()
+    created_pack_id = result[0][0]
+
+    sql = '''insert into user_pack_roles
+        values (%s, %s, %s, %s, %s)'''
+    val = (
+        user_data['pack_author_id'], created_pack_id, 'admin', -1,
+        user_data['create_dttm'])
+    mycursor.execute(sql, val)
 
     # sql = '''insert into user_packs
     #     values (%s, %s, %s)'''
