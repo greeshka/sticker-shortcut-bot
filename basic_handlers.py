@@ -41,15 +41,15 @@ To send stickers type @StickerKeyboardBot in any chat and begin typing the \
 name of the sticker.
 
 You can look at the list of stickers you can use right now with \
-/my_stickers command.
+/my_stickers command. Same for packs with /my_packs command.
 You already have stickers from the default pack.
 
 Bot searches stickers that contain your inline query as a substring, \
 therefore you can find \"smiling_frog\" sticker typing \"sm\" or \
 \"fr\" or even nothing!
 
-To save stickers use /add_sticker and follow instructions. Right now you \
-can only save stickers to your private pack.
+To save stickers use /add_sticker and follow instructions.
+You can create new packs with /create_pack.
 
 If you wish to share some feedback feel free to use /feedback.
 
